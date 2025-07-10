@@ -11,12 +11,14 @@ interface ChatState {
   messages: Message[]
   currentRoom: string
   user: string
+  room: string
 }
 
 const initialState: ChatState = {
   messages: [],
   currentRoom: 'general',
   user: `User${Math.floor(Math.random() * 1000)}`,
+  room: 'General',
 }
 
 const chatSlice = createSlice({
