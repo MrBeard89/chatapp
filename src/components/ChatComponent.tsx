@@ -5,7 +5,7 @@ import { io } from 'socket.io-client'
 import { motion } from 'framer-motion'
 import EmojiPicker from 'emoji-picker-react'
 
-const socket = io('http://localhost:3001')
+const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001')
 
 interface MessageType {
   user: string
