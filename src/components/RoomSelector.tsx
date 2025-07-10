@@ -8,14 +8,22 @@ const rooms = ['General', 'Tech', 'Random', 'Gaming']
 export default function RoomSelector({ onJoin }: { onJoin: () => void }) {
   const [username, setUsername] = useState('')
   const [room, setRoomLocal] = useState('General')
+  const [error, setError] = useState('')
   const dispatch = useDispatch()
 
   const handleJoin = () => {
-    if (username.trim()) {
-      dispatch(setUser(username))
-      dispatch(setRoom(room))
-      onJoin()
+    if (!username.trim()) {
+      setError('Username is required')
+      return
     }
+    if (username.length < 3) {
+      setError('Username must be at least 3 characters')
+      return
+    }
+    setError('')
+    dispatch(setUser(username))
+    dispatch(setRoom(room))
+    onJoin()
   }
 
   return (
@@ -53,9 +61,12 @@ export default function RoomSelector({ onJoin }: { onJoin: () => void }) {
           type='text'
           placeholder='Enter your name'
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) =>
+            setUsername(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))
+          }
           className='w-full px-4 py-2 border rounded'
         />
+        {error && <p className='text-red-600 text-sm'>{error}</p>}
         <select
           value={room}
           onChange={(e) => setRoomLocal(e.target.value)}
